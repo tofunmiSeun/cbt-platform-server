@@ -16,7 +16,7 @@ public class Question {
     private String correctAnswer;
 
     @OneToOne
-    @JoinColumn( name = "user_id", referencedColumnName = "id")
+    @JoinColumn( referencedColumnName = "id")
     private Course course;
 
     public Long getId() {

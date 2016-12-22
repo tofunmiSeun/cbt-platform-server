@@ -13,9 +13,9 @@ public class User {
     private Long id;
     private String username;
     private String emailAddress;
+    private String hashedPassword;
     @OneToOne
-    private
-    UserProfile userProfile;
+    private UserProfile userProfile;
 
     public Long getId() {
         return id;
@@ -47,5 +47,13 @@ public class User {
 
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
+    }
+
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
     }
 }
