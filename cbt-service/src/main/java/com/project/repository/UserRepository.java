@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by BABAWANDE on 12/18/2016.
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findByEmailAddress(String email);
 }

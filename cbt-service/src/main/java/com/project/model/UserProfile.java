@@ -1,9 +1,6 @@
 package com.project.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by BABAWANDE on 12/18/2016.
@@ -15,6 +12,8 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String faculty;
+
+    @OneToOne
     private Department department;
 
 
