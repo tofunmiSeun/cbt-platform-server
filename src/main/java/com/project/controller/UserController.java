@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import com.project.model.*;
+import com.project.service.DepartmentService;
 import com.project.service.FacultyService;
 import com.project.service.UserService;
 import com.project.utils.UserCredentialUtils;
@@ -23,6 +24,8 @@ public class UserController {
     UserService userService;
     @Autowired
     FacultyService facultyService;
+    @Autowired
+    DepartmentService departmentService;
 
     UserCredentialUtils userCredentialUtils = new UserCredentialUtils();
 
@@ -115,8 +118,7 @@ public class UserController {
 
     @RequestMapping(value = "/departments/{facultyId}", method = RequestMethod.GET)
     List<Department> getDepartmentsForFaculty(@PathVariable Long facultyId){
-        return null;
-        // TODO: finish up
+        return departmentService.getAllDepartmentsForFaculty(facultyId);
     }
 
     @RequestMapping(value = "/levels/{courseDurationInYears}", method = RequestMethod.GET)
