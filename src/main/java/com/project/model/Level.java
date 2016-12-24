@@ -12,6 +12,5 @@ public class Level {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     Integer numericalValue;
-//    @OneToOne
-//    Level level;
+
 }

@@ -3,6 +3,7 @@ package com.project.controller;
 import com.project.model.*;
 import com.project.service.FacultyService;
 import com.project.service.UserService;
+import com.project.utils.UserCredentialUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,8 @@ public class UserController {
     @Autowired
     FacultyService facultyService;
 
+    UserCredentialUtils userCredentialUtils = new UserCredentialUtils();
+
     @RequestMapping( value = "/register", method = RequestMethod.POST)
     ResponseEntity registerUser(@RequestBody User user) throws Exception{
 
@@ -37,7 +40,7 @@ public class UserController {
             return responseEntity;
         }
 
-        user.setPassword(getHashedPasswordForUser(user));
+        user.setPassword(userCredentialUtils.getHashedPasswordForUser(user));
         userService.createUser(user);
 
         user.setPassword(null);
@@ -76,7 +79,7 @@ public class UserController {
         dummyUser.setEmailAddress(userEmail);
         dummyUser.setPassword(password);
 
-        String hashedPassword = getHashedPasswordForUser(dummyUser);
+        String hashedPassword = userCredentialUtils.getHashedPasswordForUser(dummyUser);
         if (!hashedPassword.equals(thisUser.getPassword())){
             // Incorrect password
             responseObject.setStatus(UserLoginResponseObject.INCORRECT_PASSWORD);
@@ -107,21 +110,4 @@ public class UserController {
         return facultyService.getAllFaculties();
     }
 
-    private String getHashedPasswordForUser(User user){
-        byte [] userEmailInBytes = user.getEmailAddress().getBytes();
-        byte [] userPasswordInBytes = user.getPassword().getBytes();
-
-        byte [] hash = new byte[userEmailInBytes.length + userPasswordInBytes.length];
-
-        for (int i = 0; i < hash.length; i++){
-            if (i < userEmailInBytes.length){
-                hash[i] = userEmailInBytes[i];
-            }
-            else{
-                hash[i] = userPasswordInBytes[i - userEmailInBytes.length];
-            }
-        }
-
-        return new String (hash);
-    }
 }
