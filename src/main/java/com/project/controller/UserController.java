@@ -40,6 +40,7 @@ public class UserController {
         }
 
         user.setPassword(userCredentialUtils.getHashedPasswordForUser(user));
+        user.setLoggedIn(true);
         userService.createUser(user);
 
         user.setPassword(null);
@@ -85,6 +86,9 @@ public class UserController {
             responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
             return responseEntity;
         }
+
+        thisUser.setLoggedIn(true);
+        userService.save(thisUser);
 
         thisUser.setPassword(null);
         responseObject.setStatus(UserLoginResponseObject.ACCEPTED);

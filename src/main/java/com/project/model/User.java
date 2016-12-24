@@ -14,6 +14,7 @@ public class User {
     private String name;
     private String emailAddress;
     private String password;
+    private boolean isLoggedIn;
 
     @OneToOne
     private StudentProfile studentProfile;
@@ -56,5 +57,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        isLoggedIn = loggedIn;
     }
 }
