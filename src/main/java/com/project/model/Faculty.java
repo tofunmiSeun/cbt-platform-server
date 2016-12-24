@@ -1,6 +1,7 @@
 package com.project.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by BABAWANDE on 12/19/2016.
@@ -11,10 +12,8 @@ public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToMany
-    @JoinColumn( name = "department_id", referencedColumnName = "id")
-    private
-    Department department;
+
+    private int name;
 
     public Long getId() {
         return id;
@@ -24,11 +23,11 @@ public class Faculty {
         this.id = id;
     }
 
-    public Department getDepartment() {
-        return department;
+    public int getName() {
+        return name;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setName(int name) {
+        this.name = name;
     }
 }

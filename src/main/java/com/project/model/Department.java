@@ -11,11 +11,9 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-    @JoinColumn( name = "faculty_id", referencedColumnName = "id")
-    private
-    Faculty faculty;
-    private Integer duration;
+    private String name;
+    private Long facultyId;
+    private Integer courseDurationInYears;
 
     public Long getId() {
         return id;
@@ -25,19 +23,27 @@ public class Department {
         this.id = id;
     }
 
-    public Faculty getFaculty() {
-        return faculty;
+    public String getName() {
+        return name;
     }
 
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getDuration() {
-        return duration;
+    public Long getFacultyId() {
+        return facultyId;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setFacultyId(Long facultyId) {
+        this.facultyId = facultyId;
+    }
+
+    public Integer getCourseDurationInYears() {
+        return courseDurationInYears;
+    }
+
+    public void setCourseDurationInYears(Integer courseDurationInYears) {
+        this.courseDurationInYears = courseDurationInYears;
     }
 }

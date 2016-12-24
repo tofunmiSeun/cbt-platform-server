@@ -16,7 +16,7 @@ public class User {
     private String password;
 
     @OneToOne
-    private UserProfile userProfile;
+    private StudentProfile studentProfile;
 
     public Long getId() {
         return id;
@@ -42,12 +42,12 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
+    public StudentProfile getStudentProfile() {
+        return studentProfile;
     }
 
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
+    public void setStudentProfile(StudentProfile studentProfile) {
+        this.studentProfile = studentProfile;
     }
 
     public String getPassword() {

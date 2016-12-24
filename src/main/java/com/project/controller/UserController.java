@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 import java.util.Map;
 
@@ -95,19 +94,31 @@ public class UserController {
     }
 
     @RequestMapping( value = "/{email}/enrich-student", method = RequestMethod.POST)
-    void enrichUserWithInfo(@PathVariable String email, @RequestBody UserProfile userProfile){
+    void enrichUserWithInfo(@PathVariable String email, @RequestBody StudentProfile studentProfile){
 
         User user = userService.getByEmail(email);
 
-        user.setUserProfile(userProfile);
+        user.setStudentProfile(studentProfile);
 
         userService.save(user);
 
     }
 
-    @RequestMapping(value = "/available-profiles", method = RequestMethod.GET)
-    List<Faculty> getAvailableProfiles(){
+    @RequestMapping(value = "/faculties", method = RequestMethod.GET)
+    List<Faculty> getFaculties(){
         return facultyService.getAllFaculties();
+    }
+
+    @RequestMapping(value = "/departments/{facultyId}", method = RequestMethod.GET)
+    List<Department> getDepartmentsForFaculty(@PathVariable Long facultyId){
+        return null;
+        // TODO: finish up
+    }
+
+    @RequestMapping(value = "/levels/{courseDurationInYears}", method = RequestMethod.GET)
+    List<Department> getLevelsWithinCourseDuration(@PathVariable Integer courseDurationInYears){
+        return null;
+        // TODO: finish up
     }
 
 }
