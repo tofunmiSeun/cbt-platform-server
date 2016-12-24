@@ -3,6 +3,7 @@ package com.project.controller;
 import com.project.model.User;
 import com.project.model.UserLoginResponseObject;
 import com.project.model.UserProfile;
+import com.project.model.UserSignUpResponseObject;
 import com.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,27 +24,27 @@ public class UserController {
     UserService userService;
 
     @RequestMapping( value = "/register", method = RequestMethod.POST)
-    User registerUser(@RequestBody User user) throws Exception{
+    ResponseEntity registerUser(@RequestBody User user) throws Exception{
+
+        ResponseEntity responseEntity;
+        UserSignUpResponseObject responseObject = new UserSignUpResponseObject();
 
         if(userService.getByEmail(user.getEmailAddress()) != null){
-            throw new FileAlreadyExistsException("email already exists");
+            // email already used
+            responseObject.setStatus(UserSignUpResponseObject.EMAIL_ALREADY_IN_USE);
+            responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
+            return responseEntity;
         }
 
         user.setPassword(getHashedPasswordForUser(user));
         userService.createUser(user);
 
-        return user;
-    }
+        user.setPassword(null);
 
-    @RequestMapping( value = "/{email}/enrich-student")
-    void enrichUserWithInfo(@PathVariable String email, @RequestBody UserProfile userProfile){
-
-        User user = userService.getByEmail(email);
-
-        user.setUserProfile(userProfile);
-
-        userService.save(user);
-
+        responseObject.setStatus(UserSignUpResponseObject.ACCEPTED);
+        responseObject.setUser(user);
+        responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
+        return responseEntity;
     }
 
     @RequestMapping( value = "/login", method = RequestMethod.POST)
@@ -82,12 +83,23 @@ public class UserController {
             return responseEntity;
         }
 
+        thisUser.setPassword(null);
         responseObject.setStatus(UserLoginResponseObject.ACCEPTED);
         responseObject.setUser(thisUser);
         responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
         return responseEntity;
     }
 
+    @RequestMapping( value = "/{email}/enrich-student")
+    void enrichUserWithInfo(@PathVariable String email, @RequestBody UserProfile userProfile){
+
+        User user = userService.getByEmail(email);
+
+        user.setUserProfile(userProfile);
+
+        userService.save(user);
+
+    }
 
     private String getHashedPasswordForUser(User user){
         byte [] userEmailInBytes = user.getEmailAddress().getBytes();
