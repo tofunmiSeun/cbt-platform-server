@@ -1,9 +1,7 @@
 package com.project.controller;
 
-import com.project.model.User;
-import com.project.model.UserLoginResponseObject;
-import com.project.model.UserProfile;
-import com.project.model.UserSignUpResponseObject;
+import com.project.model.*;
+import com.project.service.FacultyService;
 import com.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.FileAlreadyExistsException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +21,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    FacultyService facultyService;
 
     @RequestMapping( value = "/register", method = RequestMethod.POST)
     ResponseEntity registerUser(@RequestBody User user) throws Exception{
@@ -90,7 +91,7 @@ public class UserController {
         return responseEntity;
     }
 
-    @RequestMapping( value = "/{email}/enrich-student")
+    @RequestMapping( value = "/{email}/enrich-student", method = RequestMethod.POST)
     void enrichUserWithInfo(@PathVariable String email, @RequestBody UserProfile userProfile){
 
         User user = userService.getByEmail(email);
@@ -99,6 +100,11 @@ public class UserController {
 
         userService.save(user);
 
+    }
+
+    @RequestMapping(value = "/available-profiles", method = RequestMethod.GET)
+    List<Faculty> getAvailableProfiles(){
+        return facultyService.getAllFaculties();
     }
 
     private String getHashedPasswordForUser(User user){
