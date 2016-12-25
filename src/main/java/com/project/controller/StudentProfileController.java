@@ -26,12 +26,24 @@ public class StudentProfileController {
     DepartmentService departmentService;
 
     @RequestMapping(value = "/faculties", method = RequestMethod.GET)
-    List<Faculty> getFaculties(){
-        return facultyService.getAllFaculties();
+    FacultyResponseObject getFaculties(){
+        FacultyResponseObject responseObject = new FacultyResponseObject();
+        responseObject.faculties = facultyService.getAllFaculties();
+        return responseObject;
     }
 
     @RequestMapping(value = "/departments/{facultyId}", method = RequestMethod.GET)
-    List<Department> getDepartmentsForFaculty(@PathVariable Long facultyId){
-        return departmentService.getAllDepartmentsForFaculty(facultyId);
+    DepartmentResponseObject getDepartmentsForFaculty(@PathVariable Long facultyId){
+        DepartmentResponseObject responseObject = new DepartmentResponseObject();
+        responseObject.departments = departmentService.getAllDepartmentsForFaculty(facultyId);
+        return responseObject;
+    }
+
+    public class FacultyResponseObject {
+        public List<Faculty> faculties;
+    }
+
+    public class DepartmentResponseObject{
+        public List<Department> departments;
     }
 }

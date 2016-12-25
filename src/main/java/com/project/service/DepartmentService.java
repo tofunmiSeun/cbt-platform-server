@@ -19,5 +19,9 @@ public class DepartmentService {
     public List<Department> getAllDepartmentsForFaculty(Long facultyId) {
         return departmentRepository.findByFacultyId(facultyId);
     }
+
+    public void save(Department department){
+        departmentRepository.save(department);
+    }
 }
 

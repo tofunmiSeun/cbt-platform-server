@@ -1,7 +1,6 @@
 package com.project.controller;
 
 import com.project.model.*;
-import com.project.service.FacultyService;
 import com.project.service.UserService;
 import com.project.utils.UserCredentialUtils;
 import org.springframework.beans.factory.annotation.Autowired;
