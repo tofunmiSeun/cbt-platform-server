@@ -32,12 +32,6 @@ public class StudentProfileController {
 
     @RequestMapping(value = "/departments/{facultyId}", method = RequestMethod.GET)
     List<Department> getDepartmentsForFaculty(@PathVariable Long facultyId){
-        return departmentService.findDepartmentsForFaculty(facultyId);
-    }
-
-    @RequestMapping(value = "/levels/{courseDurationInYears}", method = RequestMethod.GET)
-    List<Department> getLevelsWithinCourseDuration(@PathVariable Integer courseDurationInYears){
-        return null;
-        // TODO: finish up
+        return departmentService.getAllDepartmentsForFaculty(facultyId);
     }
 }
