@@ -20,4 +20,10 @@ public class FacultyService {
     public List<Faculty> getAllFaculties(){
         return facultyRepository.findAll();
     }
+    public void saveFaculty(Faculty faculty){
+        facultyRepository.save(faculty);
+    }
+    public Faculty findByName(String name){
+        return facultyRepository.findByName(name);
+    }
 }

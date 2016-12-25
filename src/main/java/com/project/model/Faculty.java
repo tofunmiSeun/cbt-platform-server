@@ -13,7 +13,7 @@ public class Faculty {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private int name;
+    private String name;
 
     public Long getId() {
         return id;
@@ -23,11 +23,11 @@ public class Faculty {
         this.id = id;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

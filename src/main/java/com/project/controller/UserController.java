@@ -21,8 +21,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    @Autowired
-    FacultyService facultyService;
 
     UserCredentialUtils userCredentialUtils = new UserCredentialUtils();
 
@@ -107,22 +105,4 @@ public class UserController {
         userService.save(user);
 
     }
-
-    @RequestMapping(value = "/faculties", method = RequestMethod.GET)
-    List<Faculty> getFaculties(){
-        return facultyService.getAllFaculties();
-    }
-
-    @RequestMapping(value = "/departments/{facultyId}", method = RequestMethod.GET)
-    List<Department> getDepartmentsForFaculty(@PathVariable Long facultyId){
-        return null;
-        // TODO: finish up
-    }
-
-    @RequestMapping(value = "/levels/{courseDurationInYears}", method = RequestMethod.GET)
-    List<Department> getLevelsWithinCourseDuration(@PathVariable Integer courseDurationInYears){
-        return null;
-        // TODO: finish up
-    }
-
 }
