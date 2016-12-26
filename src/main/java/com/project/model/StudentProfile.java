@@ -11,17 +11,19 @@ public class StudentProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String faculty;
+    @OneToOne
+    private Faculty faculty;
 
     @OneToOne
     private Department department;
+    private Integer level;
 
 
-    public String getFaculty() {
+    public Faculty getFaculty() {
         return faculty;
     }
 
-    public void setFaculty(String faculty) {
+    public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
     }
 
@@ -39,5 +41,13 @@ public class StudentProfile {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }
