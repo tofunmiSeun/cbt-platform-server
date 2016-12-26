@@ -1,6 +1,7 @@
 package com.project.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by BABAWANDE on 12/18/2016.
@@ -15,6 +16,9 @@ public class User {
     private String emailAddress;
     private String password;
     private boolean isLoggedIn;
+
+    @ElementCollection
+    private List<Course> courses;
 
     @OneToOne
     private StudentProfile studentProfile;
@@ -65,5 +69,13 @@ public class User {
 
     public void setLoggedIn(boolean loggedIn) {
         isLoggedIn = loggedIn;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }

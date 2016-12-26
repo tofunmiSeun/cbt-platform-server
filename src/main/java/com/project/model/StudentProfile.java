@@ -16,7 +16,6 @@ public class StudentProfile {
     @OneToOne
     private Department department;
 
-
     public String getFaculty() {
         return faculty;
     }
