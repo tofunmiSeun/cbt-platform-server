@@ -16,7 +16,7 @@ public class StudentProfile {
 
     @OneToOne
     private Department department;
-    private Integer level;
+    private Integer numericalValueOfStudentLevel;
 
 
     public Faculty getFaculty() {
@@ -43,11 +43,11 @@ public class StudentProfile {
         this.id = id;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getNumericalValueOfStudentLevel() {
+        return numericalValueOfStudentLevel;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setNumericalValueOfStudentLevel(Integer numericalValueOfStudentLevel) {
+        this.numericalValueOfStudentLevel = numericalValueOfStudentLevel;
     }
 }
