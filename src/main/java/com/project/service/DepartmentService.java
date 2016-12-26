@@ -16,7 +16,19 @@ public class DepartmentService {
     @Autowired
     DepartmentRepository departmentRepository;
 
+<<<<<<< HEAD
     public List<Department> getAllDepartmentsForFaculty(Long facultyId){
         return departmentRepository.findByFacultyId(facultyId);
     }
 }
+=======
+    public List<Department> getAllDepartmentsForFaculty(Long facultyId) {
+        return departmentRepository.findByFacultyId(facultyId);
+    }
+
+    public void save(Department department){
+        departmentRepository.save(department);
+    }
+}
+
+>>>>>>> 8e70319b004e5f751774b78ac06f31c377468428
