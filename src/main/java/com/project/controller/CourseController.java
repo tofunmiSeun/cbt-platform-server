@@ -32,8 +32,8 @@ public class CourseController {
         return courseService.getAllCourses();
     }
 
-    @RequestMapping( value = "/recommended-courses/{email}", method = RequestMethod.GET)
-    public List<Course> getRecommendedCourses(@PathVariable String email){
+    @RequestMapping( value = "/assigned-courses/{email}", method = RequestMethod.GET)
+    public List<Course> getAssignedCourses(@PathVariable String email){
         return userService.getByEmail(email).getCourses();
     }
 

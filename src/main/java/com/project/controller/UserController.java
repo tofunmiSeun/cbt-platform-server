@@ -1,15 +1,14 @@
 package com.project.controller;
 
 import com.project.model.*;
-import com.project.service.DepartmentService;
-import com.project.service.FacultyService;
-
+import com.project.service.StudentProfileService;
 import com.project.service.UserService;
 import com.project.utils.UserCredentialUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 import java.util.Map;
@@ -24,19 +23,17 @@ public class UserController {
     @Autowired
     UserService userService;
     @Autowired
-    FacultyService facultyService;
-    @Autowired
-    DepartmentService departmentService;
+    StudentProfileService studentProfileService;
 
     UserCredentialUtils userCredentialUtils = new UserCredentialUtils();
 
-    @RequestMapping( value = "/register", method = RequestMethod.POST)
-    ResponseEntity registerUser(@RequestBody User user) throws Exception{
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    ResponseEntity registerUser(@RequestBody User user) throws Exception {
 
         ResponseEntity responseEntity;
         UserSignUpResponseObject responseObject = new UserSignUpResponseObject();
 
-        if(userService.getByEmail(user.getEmailAddress()) != null){
+        if (userService.getByEmail(user.getEmailAddress()) != null) {
             // email already used
             responseObject.setStatus(UserSignUpResponseObject.EMAIL_ALREADY_IN_USE);
             responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
@@ -55,8 +52,8 @@ public class UserController {
         return responseEntity;
     }
 
-    @RequestMapping( value = "/login", method = RequestMethod.POST)
-    ResponseEntity login(@RequestBody Map<String, String> loginCredentials){
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    ResponseEntity login(@RequestBody Map<String, String> loginCredentials) {
 
         String userEmail = loginCredentials.get("emailAddress");
         String password = loginCredentials.get("password");
@@ -64,7 +61,7 @@ public class UserController {
         ResponseEntity responseEntity;
         UserLoginResponseObject responseObject = new UserLoginResponseObject();
 
-        if (!(userEmail != null && password != null)){
+        if (!(userEmail != null && password != null)) {
             // Invalid credentials sent
             responseObject.setStatus(UserLoginResponseObject.INVALID_CREDENTIALS);
             responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
@@ -72,7 +69,7 @@ public class UserController {
         }
         User thisUser = userService.getByEmail(userEmail);
 
-        if (thisUser == null){
+        if (thisUser == null) {
             // User does not exist for this email
             responseObject.setStatus(UserLoginResponseObject.NO_ACCOUNT_FOR_THIS_EMAIL);
             responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
@@ -84,7 +81,7 @@ public class UserController {
         dummyUser.setPassword(password);
 
         String hashedPassword = userCredentialUtils.getHashedPasswordForUser(dummyUser);
-        if (!hashedPassword.equals(thisUser.getPassword())){
+        if (!hashedPassword.equals(thisUser.getPassword())) {
             // Incorrect password
             responseObject.setStatus(UserLoginResponseObject.INCORRECT_PASSWORD);
             responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
@@ -101,31 +98,16 @@ public class UserController {
         return responseEntity;
     }
 
-    @RequestMapping( value = "/{email}/enrich-student", method = RequestMethod.POST)
-    void enrichUserWithInfo(@PathVariable String email, @RequestBody StudentProfile studentProfile){
+    @RequestMapping(value = "/{email}/enrich-student", method = RequestMethod.POST)
+    void enrichUserWithInfo(@PathVariable String email, @RequestBody StudentProfile studentProfile) {
 
         User user = userService.getByEmail(email);
+        if (user == null) {
+            throw new HttpServerErrorException(HttpStatus.NOT_FOUND);
+        }
 
+        studentProfile = studentProfileService.saveStudentProfile(studentProfile);
         user.setStudentProfile(studentProfile);
-
         userService.save(user);
-
     }
-
-    @RequestMapping(value = "/faculties", method = RequestMethod.GET)
-    List<Faculty> getFaculties(){
-        return facultyService.getAllFaculties();
-    }
-
-    @RequestMapping(value = "/departments/{facultyId}", method = RequestMethod.GET)
-    List<Department> getDepartmentsForFaculty(@PathVariable Long facultyId){
-        return departmentService.getAllDepartmentsForFaculty(facultyId);
-    }
-
-    @RequestMapping(value = "/levels/{courseDurationInYears}", method = RequestMethod.GET)
-    List<Department> getLevelsWithinCourseDuration(@PathVariable Integer courseDurationInYears){
-        return null;
-        // TODO: finish up
-    }
-
 }
