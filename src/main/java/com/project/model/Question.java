@@ -12,12 +12,9 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String question;
-    private String options;
-    private String correctAnswer;
-
-    @OneToOne
-    @JoinColumn( referencedColumnName = "id")
-    private Course course;
+    private String[] options;
+    private int correctAnswerIndex;
+    private Long courseId;
 
     public Long getId() {
         return id;
@@ -35,27 +32,27 @@ public class Question {
         this.question = question;
     }
 
-    public String getOptions() {
+    public String[] getOptions() {
         return options;
     }
 
-    public void setOptions(String options) {
+    public void setOptions(String[] options) {
         this.options = options;
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
+    public int getCorrectAnswerIndex() {
+        return correctAnswerIndex;
     }
 
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
+    public void setCorrectAnswerIndex(int correctAnswerIndex) {
+        this.correctAnswerIndex = correctAnswerIndex;
     }
 
-    public Course getCourse() {
-        return course;
+    public Long getCourseId() {
+        return courseId;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 }
