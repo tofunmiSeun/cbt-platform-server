@@ -1,6 +1,9 @@
 package com.project.controller;
 
 import com.project.model.*;
+import com.project.service.DepartmentService;
+import com.project.service.FacultyService;
+
 import com.project.service.UserService;
 import com.project.utils.UserCredentialUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,10 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    FacultyService facultyService;
+    @Autowired
+    DepartmentService departmentService;
 
     UserCredentialUtils userCredentialUtils = new UserCredentialUtils();
 
@@ -104,4 +111,21 @@ public class UserController {
         userService.save(user);
 
     }
+
+    @RequestMapping(value = "/faculties", method = RequestMethod.GET)
+    List<Faculty> getFaculties(){
+        return facultyService.getAllFaculties();
+    }
+
+    @RequestMapping(value = "/departments/{facultyId}", method = RequestMethod.GET)
+    List<Department> getDepartmentsForFaculty(@PathVariable Long facultyId){
+        return departmentService.getAllDepartmentsForFaculty(facultyId);
+    }
+
+    @RequestMapping(value = "/levels/{courseDurationInYears}", method = RequestMethod.GET)
+    List<Department> getLevelsWithinCourseDuration(@PathVariable Integer courseDurationInYears){
+        return null;
+        // TODO: finish up
+    }
+
 }

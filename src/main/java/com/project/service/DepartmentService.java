@@ -16,7 +16,7 @@ public class DepartmentService {
     @Autowired
     DepartmentRepository departmentRepository;
 
-    public List<Department> getAllDepartmentsForFaculty(Long facultyId) {
+    public List<Department> getAllDepartmentsForFaculty(Long facultyId){
         return departmentRepository.findByFacultyId(facultyId);
     }
 
