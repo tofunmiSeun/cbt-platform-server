@@ -11,11 +11,10 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-    @JoinColumn( name = "level_id", referencedColumnName = "id")
-    private Level level;
-    private String courseCode;
     private String courseTitle;
+    private String courseCode;
+    private Long departmentId;
+    private Integer levelValue;
 
     public Long getId() {
         return id;
@@ -25,12 +24,12 @@ public class Course {
         this.id = id;
     }
 
-    public Level getLevel() {
-        return level;
+    public String getCourseTitle() {
+        return courseTitle;
     }
 
-    public void setLevel(Level level) {
-        this.level = level;
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
     }
 
     public String getCourseCode() {
@@ -41,11 +40,19 @@ public class Course {
         this.courseCode = courseCode;
     }
 
-    public String getCourseTitle() {
-        return courseTitle;
+    public Long getDepartmentId() {
+        return departmentId;
     }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Integer getLevelValue() {
+        return levelValue;
+    }
+
+    public void setLevelValue(Integer levelValue) {
+        this.levelValue = levelValue;
     }
 }

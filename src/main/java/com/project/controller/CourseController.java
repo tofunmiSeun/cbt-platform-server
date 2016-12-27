@@ -1,15 +1,13 @@
 package com.project.controller;
 
 import com.project.model.Course;
+import com.project.model.UpdateUserAssignedCoursesRequestObject;
 import com.project.model.User;
 import com.project.service.CourseService;
 import com.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +15,7 @@ import java.util.List;
 /**
  * Created by BABAWANDE on 12/26/2016.
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/courses")
 public class CourseController {
 
@@ -28,22 +26,29 @@ public class CourseController {
     UserService userService;
 
     @RequestMapping( value = "/all-courses", method = RequestMethod.GET)
-    public List<Course> getAllCourses(){
-        return courseService.getAllCourses();
+     CourseResponseObject getAllCourses(){
+        CourseResponseObject responseObject = new CourseResponseObject();
+        responseObject.courses = courseService.getAllCourses();
+        return responseObject;
     }
 
     @RequestMapping( value = "/assigned-courses/{email}", method = RequestMethod.GET)
-    public List<Course> getAssignedCourses(@PathVariable String email){
+    List<Course> getAssignedCourses(@PathVariable String email){
         return userService.getByEmail(email).getCourses();
     }
 
-    @RequestMapping( value = "/update-courses/{email}", method = RequestMethod.POST)
-    public void updateCoursesForUser(@PathVariable String email, @RequestBody List<Course> courses){
-        User thisUser = userService.getByEmail(email);
-
-        thisUser.getCourses().addAll(courses);
-
-        userService.save(thisUser);
+    @RequestMapping( value = "/update-courses", method = RequestMethod.POST)
+     void updateCoursesForUser(@RequestBody UpdateUserAssignedCoursesRequestObject requestObject){
+        try {
+            User thisUser = userService.getByEmail(requestObject.getEmailAddress());
+            thisUser.getCourses().addAll(requestObject.getCoursesToUpdate());
+            userService.save(thisUser);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
+    public class CourseResponseObject {
+        public List<Course> courses;
+    }
 }
