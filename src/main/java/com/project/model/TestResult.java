@@ -1,6 +1,7 @@
 package com.project.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +23,8 @@ public class TestResult {
     private Integer totalQuestionsCount;
     private Integer questionsAnsweredCount;
     private Integer correctAnswerCount;
+
+    private Date testTime;
 
     public Long getId() {
         return id;

@@ -2,12 +2,10 @@ package com.project.controller;
 
 import com.project.model.Course;
 import com.project.model.Question;
+import com.project.model.TestResult;
 import com.project.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +24,11 @@ public class QuizController {
         QuestionResponseObject responseObject = new QuestionResponseObject();
         responseObject.questions = quizService.getByCourseId(courseId);
         return responseObject;
+    }
+
+    @RequestMapping( value = "/save-result", method = RequestMethod.POST)
+    void saveTestResult(@RequestBody TestResult result){
+        quizService.saveTestResult(result);
     }
 
     public class QuestionResponseObject{
