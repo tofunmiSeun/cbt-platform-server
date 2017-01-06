@@ -34,14 +34,14 @@ public class CourseController {
 
     @RequestMapping( value = "/assigned-courses/{email}", method = RequestMethod.GET)
     List<Course> getAssignedCourses(@PathVariable String email){
-        return userService.getByEmail(email).getCourses();
+        return userService.getByEmail(email).getStudentProfile().getCourses();
     }
 
     @RequestMapping( value = "/update-courses", method = RequestMethod.POST)
      void updateCoursesForUser(@RequestBody UpdateUserAssignedCoursesRequestObject requestObject){
         try {
             User thisUser = userService.getByEmail(requestObject.getEmailAddress());
-            thisUser.getCourses().addAll(requestObject.getCoursesToUpdate());
+            thisUser.getStudentProfile().getCourses().addAll(requestObject.getCoursesToUpdate());
             userService.save(thisUser);
         }catch (Exception e){
             System.out.println(e.getMessage());

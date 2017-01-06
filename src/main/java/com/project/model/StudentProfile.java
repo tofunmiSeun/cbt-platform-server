@@ -1,6 +1,7 @@
 package com.project.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by BABAWANDE on 12/18/2016.
@@ -17,6 +18,9 @@ public class StudentProfile {
     @OneToOne
     private Department department;
     private Integer numericalValueOfStudentLevel;
+
+    @ElementCollection
+    private List<Course> courses;
 
 
     public Faculty getFaculty() {
@@ -49,5 +53,13 @@ public class StudentProfile {
 
     public void setNumericalValueOfStudentLevel(Integer numericalValueOfStudentLevel) {
         this.numericalValueOfStudentLevel = numericalValueOfStudentLevel;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }

@@ -22,6 +22,7 @@ public class QuizController {
     @RequestMapping( value = "/{courseId}", method = RequestMethod.GET)
     private QuestionResponseObject getQuestionsForCourse(@PathVariable Long courseId){
         QuestionResponseObject responseObject = new QuestionResponseObject();
+        //TODO: change this implementation to get fresh questions
         responseObject.questions = quizService.getByCourseId(courseId);
         return responseObject;
     }
