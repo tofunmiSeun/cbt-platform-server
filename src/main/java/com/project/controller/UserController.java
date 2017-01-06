@@ -36,7 +36,7 @@ public class UserController {
         if (userService.getByEmail(user.getEmailAddress()) != null) {
             // email already used
             responseObject.setStatus(UserSignUpResponseObject.EMAIL_ALREADY_IN_USE);
-            responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
+            responseEntity = new ResponseEntity<>(responseObject, HttpStatus.OK);
             return responseEntity;
         }
 
@@ -48,7 +48,7 @@ public class UserController {
 
         responseObject.setStatus(UserSignUpResponseObject.ACCEPTED);
         responseObject.setUser(user);
-        responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
+        responseEntity = new ResponseEntity<>(responseObject, HttpStatus.OK);
         return responseEntity;
     }
 
@@ -64,7 +64,7 @@ public class UserController {
         if (!(userEmail != null && password != null)) {
             // Invalid credentials sent
             responseObject.setStatus(UserLoginResponseObject.INVALID_CREDENTIALS);
-            responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
+            responseEntity = new ResponseEntity<>(responseObject, HttpStatus.OK);
             return responseEntity;
         }
         User thisUser = userService.getByEmail(userEmail);
@@ -72,7 +72,7 @@ public class UserController {
         if (thisUser == null) {
             // User does not exist for this email
             responseObject.setStatus(UserLoginResponseObject.NO_ACCOUNT_FOR_THIS_EMAIL);
-            responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
+            responseEntity = new ResponseEntity<>(responseObject, HttpStatus.OK);
             return responseEntity;
         }
 
@@ -84,7 +84,7 @@ public class UserController {
         if (!hashedPassword.equals(thisUser.getPassword())) {
             // Incorrect password
             responseObject.setStatus(UserLoginResponseObject.INCORRECT_PASSWORD);
-            responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
+            responseEntity = new ResponseEntity<>(responseObject, HttpStatus.OK);
             return responseEntity;
         }
 
@@ -94,7 +94,7 @@ public class UserController {
         thisUser.setPassword(null);
         responseObject.setStatus(UserLoginResponseObject.ACCEPTED);
         responseObject.setUser(thisUser);
-        responseEntity = new ResponseEntity<>(responseObject, HttpStatus.ACCEPTED);
+        responseEntity = new ResponseEntity<>(responseObject, HttpStatus.OK);
         return responseEntity;
     }
 
@@ -109,5 +109,14 @@ public class UserController {
         studentProfile = studentProfileService.saveStudentProfile(studentProfile);
         user.setStudentProfile(studentProfile);
         userService.save(user);
+    }
+
+    @RequestMapping(value = "/logout/{email}", method = RequestMethod.POST)
+    ResponseEntity logout(@PathVariable String email) {
+        User user = userService.getByEmail(email);
+        user.setLoggedIn(false);
+        userService.save(user);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

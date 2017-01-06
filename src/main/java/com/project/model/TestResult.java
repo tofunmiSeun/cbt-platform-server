@@ -24,7 +24,7 @@ public class TestResult {
     private Integer questionsAnsweredCount;
     private Integer correctAnswerCount;
 
-    private Date testTime;
+    private Date timeOfTest;
 
     public Long getId() {
         return id;
@@ -80,5 +80,13 @@ public class TestResult {
 
     public void setCorrectAnswerCount(Integer correctAnswerCount) {
         this.correctAnswerCount = correctAnswerCount;
+    }
+
+    public Date getTimeOfTest() {
+        return timeOfTest;
+    }
+
+    public void setTimeOfTest(Date timeOfTest) {
+        this.timeOfTest = timeOfTest;
     }
 }
