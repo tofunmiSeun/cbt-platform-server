@@ -1,5 +1,7 @@
 package com.project.model;
 
+import java.util.List;
+
 /**
  * Created by Tofunmi on 24/12/2016.
  */
@@ -12,6 +14,8 @@ public class UserLoginResponseObject {
 
     private int status;
     private User user;
+    private List<Course> registeredCourses;
+    private List<Question> questions;
 
     public int getStatus() {
         return status;
@@ -27,5 +31,21 @@ public class UserLoginResponseObject {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Course> getRegisteredCourses() {
+        return registeredCourses;
+    }
+
+    public void setRegisteredCourses(List<Course> registeredCourses) {
+        this.registeredCourses = registeredCourses;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 }

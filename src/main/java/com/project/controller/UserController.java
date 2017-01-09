@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import com.project.model.*;
+import com.project.service.QuizService;
 import com.project.service.StudentProfileService;
 import com.project.service.UserService;
 import com.project.utils.UserCredentialUtils;
@@ -24,6 +25,8 @@ public class UserController {
     UserService userService;
     @Autowired
     StudentProfileService studentProfileService;
+    @Autowired
+    QuizService quizService;
 
     UserCredentialUtils userCredentialUtils = new UserCredentialUtils();
 
@@ -94,6 +97,12 @@ public class UserController {
         thisUser.setPassword(null);
         responseObject.setStatus(UserLoginResponseObject.ACCEPTED);
         responseObject.setUser(thisUser);
+        if (thisUser.getStudentProfile() != null && thisUser.getStudentProfile().getCourses() != null){
+            responseObject.setRegisteredCourses(thisUser.getStudentProfile().getCourses());
+
+            List<Question> questionsForRegisteredCourses = quizService.getQuestionsForCourses(responseObject.getRegisteredCourses());
+            responseObject.setQuestions(questionsForRegisteredCourses);
+        }
         responseEntity = new ResponseEntity<>(responseObject, HttpStatus.OK);
         return responseEntity;
     }
@@ -111,7 +120,7 @@ public class UserController {
         userService.save(user);
     }
 
-    @RequestMapping(value = "/logout/{email}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{email}/logout", method = RequestMethod.POST)
     ResponseEntity logout(@PathVariable String email) {
         User user = userService.getByEmail(email);
         user.setLoggedIn(false);

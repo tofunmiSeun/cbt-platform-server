@@ -17,14 +17,11 @@ public class TestResult {
     private Long userId;
     private Long courseId;
 
-    @ElementCollection
-    private List<Long> questionsId;
-
     private Integer totalQuestionsCount;
     private Integer questionsAnsweredCount;
     private Integer correctAnswerCount;
 
-    private Date timeOfTest;
+    private Long timeOfTestInMilliseconds;
 
     public Long getId() {
         return id;
@@ -48,14 +45,6 @@ public class TestResult {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
-    }
-
-    public List<Long> getQuestionsId() {
-        return questionsId;
-    }
-
-    public void setQuestionsId(List<Long> questionsId) {
-        this.questionsId = questionsId;
     }
 
     public Integer getTotalQuestionsCount() {
@@ -82,11 +71,11 @@ public class TestResult {
         this.correctAnswerCount = correctAnswerCount;
     }
 
-    public Date getTimeOfTest() {
-        return timeOfTest;
+    public Long getTimeOfTestInMilliseconds() {
+        return timeOfTestInMilliseconds;
     }
 
-    public void setTimeOfTest(Date timeOfTest) {
-        this.timeOfTest = timeOfTest;
+    public void setTimeOfTestInMilliseconds(Long timeOfTestInMilliseconds) {
+        this.timeOfTestInMilliseconds = timeOfTestInMilliseconds;
     }
 }

@@ -22,6 +22,9 @@ public class StudentProfile {
     @ElementCollection
     private List<Course> courses;
 
+    @ElementCollection
+    private List<Long> attemptedQuestionsIds;
+
 
     public Faculty getFaculty() {
         return faculty;
@@ -61,5 +64,13 @@ public class StudentProfile {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public List<Long> getAttemptedQuestionsIds() {
+        return attemptedQuestionsIds;
+    }
+
+    public void setAttemptedQuestionsIds(List<Long> attemptedQuestionsIds) {
+        this.attemptedQuestionsIds = attemptedQuestionsIds;
     }
 }
