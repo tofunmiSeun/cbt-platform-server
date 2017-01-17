@@ -20,6 +20,16 @@ public class QuizController {
     @Autowired
     QuizService quizService;
 
+    @RequestMapping( value = "/all}", method = RequestMethod.GET)
+    private List<Question> getQuestions(){
+        return quizService.getAllQuestions();
+    }
+
+    @RequestMapping( value = "/add}", method = RequestMethod.GET)
+    private void getQuestions(@RequestBody Question question){
+        quizService.add(question);
+    }
+
     @RequestMapping( method = RequestMethod.GET)
     private QuestionResponseObject getQuestions(@RequestBody Map<Long, List<Long>> requestBody){
         QuestionResponseObject responseObject = new QuestionResponseObject();

@@ -29,6 +29,14 @@ public class QuizService {
         return questionRepository.findByCourseId(courseId);
     }
 
+    public List<Question> getAllQuestions(){
+        return questionRepository.findAll();
+    }
+
+    public void add(Question q){
+        questionRepository.save(q);
+    }
+
     public List<Question> getByCourseId(Long courseId, int limit){
         return questionRepository.findByCourseId(courseId, limit);
     }

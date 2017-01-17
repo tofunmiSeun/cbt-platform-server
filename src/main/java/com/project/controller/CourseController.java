@@ -38,6 +38,16 @@ public class CourseController {
         return responseObject;
     }
 
+    @RequestMapping( value = "/all}", method = RequestMethod.GET)
+    private List<Course> getAll(){
+        return getAllCourses().courses;
+    }
+
+    @RequestMapping( value = "/add}", method = RequestMethod.GET)
+    private void getQuestions(@RequestBody Course course){
+        courseService.save(course);
+    }
+
     @RequestMapping( value = "/update-courses", method = RequestMethod.POST)
     UpdateCoursesResponseObject updateCoursesForUser(@RequestBody UpdateUserAssignedCoursesRequestObject requestObject){
         UpdateCoursesResponseObject updateCoursesResponseObject = new UpdateCoursesResponseObject();
