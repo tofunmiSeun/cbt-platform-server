@@ -100,7 +100,7 @@ public class UserController {
         if (thisUser.getStudentProfile() != null && thisUser.getStudentProfile().getCourses() != null){
             responseObject.setRegisteredCourses(thisUser.getStudentProfile().getCourses());
 
-            List<Question> questionsForRegisteredCourses = quizService.getQuestionsForCourses(responseObject.getRegisteredCourses());
+            List<Question> questionsForRegisteredCourses = quizService.getQuestionsForCourses(responseObject.getRegisteredCourses(), 40);
             responseObject.setQuestions(questionsForRegisteredCourses);
         }
         responseEntity = new ResponseEntity<>(responseObject, HttpStatus.OK);
@@ -120,9 +120,20 @@ public class UserController {
         userService.save(user);
     }
 
-    @RequestMapping(value = "/{email}/logout", method = RequestMethod.POST)
-    ResponseEntity logout(@PathVariable String email) {
-        User user = userService.getByEmail(email);
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    ResponseEntity logout(@RequestBody SignOutUserRequestObject requestObject) {
+        if (requestObject == null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        User user = userService.getByEmail(requestObject.emailAddress);
+        for (Long questionId : requestObject.attemptedQuestionsIds){
+            if (!user.getStudentProfile().getAttemptedQuestionsIds().contains(questionId)){
+                user.getStudentProfile().getAttemptedQuestionsIds().add(questionId);
+            }
+        }
+        
+        quizService.saveTestResult(requestObject.testResultsPendingUpload);
+
         user.setLoggedIn(false);
         userService.save(user);
 

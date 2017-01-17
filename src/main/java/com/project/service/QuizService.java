@@ -20,35 +20,35 @@ import java.util.Set;
 public class QuizService {
 
     @Autowired
-    QuestionRepository questionRepository;
+    private QuestionRepository questionRepository;
 
     @Autowired
-    TestResultRepository testResultRepository;
+    private TestResultRepository testResultRepository;
 
     public List<Question> getByCourseId(Long courseId){
         return questionRepository.findByCourseId(courseId);
     }
 
-    public List<Question> getQuestionsForCourses(Map<Long, List<Long>> mapOfCoursesWithQuestionsToExempt){
+    public List<Question> getByCourseId(Long courseId, int limit){
+        return questionRepository.findByCourseId(courseId, limit);
+    }
+
+    public List<Question> getQuestionsForCourses(Map<Long, List<Long>> mapOfCoursesWithQuestionsToExempt, Integer limit){
         List<Question> questionsList = new ArrayList<>();
         Set<Long> listOfCoursesId = mapOfCoursesWithQuestionsToExempt.keySet();
         for (Long id : listOfCoursesId){
-            List<Question> questions = questionRepository.findQuestions(id, mapOfCoursesWithQuestionsToExempt.get(id));
-            for (Question q : questions){
-                questionsList.add(q);
-            }
+            List<Question> questions = questionRepository.findQuestions(id, mapOfCoursesWithQuestionsToExempt.get(id), limit);
+            questionsList.addAll(questions);
         }
 
         return questionsList;
     }
 
-    public List<Question> getQuestionsForCourses(List<Course> courses){
+    public List<Question> getQuestionsForCourses(List<Course> courses, int limit){
         List<Question> questionsList = new ArrayList<>();
         for (Course c : courses){
-            List<Question> questions = questionRepository.findByCourseId(c.getId());
-            for (Question q : questions){
-                questionsList.add(q);
-            }
+            List<Question> questions = questionRepository.findByCourseId(c.getId(), limit);
+            questionsList.addAll(questions);
         }
 
         return questionsList;

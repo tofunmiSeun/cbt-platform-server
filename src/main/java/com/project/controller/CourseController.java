@@ -38,11 +38,6 @@ public class CourseController {
         return responseObject;
     }
 
-    @RequestMapping( value = "/assigned-courses/{email}", method = RequestMethod.GET)
-    List<Course> getAssignedCourses(@PathVariable String email){
-        return userService.getByEmail(email).getStudentProfile().getCourses();
-    }
-
     @RequestMapping( value = "/update-courses", method = RequestMethod.POST)
     UpdateCoursesResponseObject updateCoursesForUser(@RequestBody UpdateUserAssignedCoursesRequestObject requestObject){
         UpdateCoursesResponseObject updateCoursesResponseObject = new UpdateCoursesResponseObject();
@@ -52,10 +47,8 @@ public class CourseController {
             userService.save(thisUser);
 
             for (Course c : requestObject.getCoursesToUpdate()){
-                List<Question> questions = quizService.getByCourseId(c.getId());
-                for (Question q : questions){
-                    updateCoursesResponseObject.questions.add(q);
-                }
+                List<Question> questions = quizService.getByCourseId(c.getId(), 40);
+                updateCoursesResponseObject.questions.addAll(questions);
             }
         }catch (Exception e){
             System.out.println(e.getMessage());

@@ -24,7 +24,7 @@ public class QuizController {
     private QuestionResponseObject getQuestions(@RequestBody Map<Long, List<Long>> requestBody){
         QuestionResponseObject responseObject = new QuestionResponseObject();
         //TODO: change this implementation to get fresh questions
-        responseObject.questions = quizService.getQuestionsForCourses(requestBody);
+        responseObject.questions = quizService.getQuestionsForCourses(requestBody, 40);
         return responseObject;
     }
 
@@ -33,6 +33,14 @@ public class QuizController {
         QuestionResponseObject responseObject = new QuestionResponseObject();
         //TODO: change this implementation to get fresh questions
         responseObject.questions = quizService.getByCourseId(courseId);
+        return responseObject;
+    }
+
+    @RequestMapping( value = "/{courseId}/{limit}", method = RequestMethod.GET)
+    private QuestionResponseObject getQuestionsForCourse(@PathVariable Long courseId, @PathVariable Integer limit){
+        QuestionResponseObject responseObject = new QuestionResponseObject();
+        //TODO: change this implementation to get fresh questions
+        responseObject.questions = quizService.getByCourseId(courseId, limit);
         return responseObject;
     }
 
