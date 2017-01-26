@@ -14,6 +14,7 @@ public class User {
     private Long id;
     private String name;
     private String emailAddress;
+    private String phoneNumber;
     private String password;
     private boolean isLoggedIn;
 
@@ -38,6 +39,14 @@ public class User {
 
     public String getEmailAddress() {
         return emailAddress;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void setEmailAddress(String emailAddress) {
