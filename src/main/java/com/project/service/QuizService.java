@@ -38,14 +38,14 @@ public class QuizService {
     }
 
     public List<Question> getByCourseId(Long courseId, int limit){
-        return questionRepository.findByCourseId(courseId, limit);
+        return questionRepository.findByCourseId(courseId);
     }
 
     public List<Question> getQuestionsForCourses(Map<Long, List<Long>> mapOfCoursesWithQuestionsToExempt, Integer limit){
         List<Question> questionsList = new ArrayList<>();
         Set<Long> listOfCoursesId = mapOfCoursesWithQuestionsToExempt.keySet();
         for (Long id : listOfCoursesId){
-            List<Question> questions = questionRepository.findQuestions(id, mapOfCoursesWithQuestionsToExempt.get(id), limit);
+            List<Question> questions = questionRepository.findQuestions(id, mapOfCoursesWithQuestionsToExempt.get(id));
             questionsList.addAll(questions);
         }
 
@@ -55,7 +55,7 @@ public class QuizService {
     public List<Question> getQuestionsForCourses(List<Course> courses, int limit){
         List<Question> questionsList = new ArrayList<>();
         for (Course c : courses){
-            List<Question> questions = questionRepository.findByCourseId(c.getId(), limit);
+            List<Question> questions = questionRepository.findByCourseId(c.getId());
             questionsList.addAll(questions);
         }
 
